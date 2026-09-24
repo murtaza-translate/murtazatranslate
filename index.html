@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Murtaza Translate</title>
+ <link rel="manifest" href="manifest.json">
+ <meta name="theme-color" content="#0d6efd">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
 header{background:#173b7a;color:white;padding:28px 18px;text-align:center}
@@ -93,5 +95,10 @@ function contact(){
  alert('Contact section is ready. In the next version, we can connect WhatsApp, email, or a contact form.');
 }
 </script>
+ <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+ </script>
 </body>
 </html>
