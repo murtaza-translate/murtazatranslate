@@ -49,26 +49,18 @@ footer{text-align:center;padding:25px;color:#687386;font-size:14px}
 <button onclick="copyText()">Copy Text</button>
 </div>
   <button onclick="translateText()">Translate</button>
- <p id="outputText" style="font-weight:bold; margin-top:15px; font-size:18px; color:green;"></p>
-<p class="small" style="margin-top:14px">
-Demo version: translation API is not connected yet. The interface is ready for the next development step.
-</p>
 </section>
-
 <section class="card service">
 <h2>Professional Translation Service</h2>
 <p>Need accurate English, Urdu or Hindi translation, Urdu typing, or proofreading?</p>
 <button onclick="contact()">Contact Murtaza Translate</button>
 </section>
-
 <section class="card">
 <h2>About</h2>
 <p>Murtaza Translate provides language-focused digital tools and professional translation services.</p>
 </section>
 </main>
-
 <footer>© 2026 Murtaza Translate • All rights reserved.</footer>
-
 <script>
 function setLanguage(name){
  document.getElementById('mode').textContent=name;
@@ -106,9 +98,7 @@ function contact(){
     alert("کچھ انگریزی لکھیں");
     return;
   }
-
   const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|ur';
-
   try {
     const response = await fetch(url);
     const data = await response.json();
