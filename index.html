@@ -110,6 +110,35 @@ function contact(){
  }
  
 </script>
+ // MyMemory API کا لنک
+const apiUrl = 'https://api.mymemory.translated.net/get';
+
+// ترجمہ کرنے کا فنکشن
+async function translateText() {
+  const sourceText = document.getElementById('text').value;
+  if (!sourceText) {
+    alert('Please enter some text first.');
+    return;
+  }
+
+  // ترجمہ کے لیے لنک بنائیں (انگریزی سے اردو)
+  const url = `${apiUrl}?q=${encodeURIComponent(sourceText)}&langpair=en|ur`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // API کا جواب چیک کریں
+    if (data && data.responseData && data.responseData.translatedText) {
+      document.getElementById('translatedText').innerText = data.responseData.translatedText;
+    } else {
+      document.getElementById('translatedText').innerText = 'ترجمہ دستیاب نہیں۔';
+    }
+  } catch (error) {
+    console.error('Translation failed:', error);
+    document.getElementById('translatedText').innerText = 'ترجمہ کرنے میں مسئلہ ہوا۔';
+  }
+}
  <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js');
