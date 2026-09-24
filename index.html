@@ -96,19 +96,6 @@ function showCounter(){
 function contact(){
  alert('Contact section is ready. In the next version, we can connect WhatsApp, email, or a contact form.');
 }
- async function translateText() {
-    const text = document.getElementById('text').value;
-    if (!text) { alert("پہلے کچھ انگریزی لکھیں!"); return; }
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ur`;
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        document.getElementById('outputText').innerText = data.responseData.translatedText;
-    } catch (error) {
-        alert("ترجمہ کرنے میں مسئلہ آ گیا۔ انٹرنیٹ چیک کریں۔");
-    }
- }
-</script>
  <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js');
