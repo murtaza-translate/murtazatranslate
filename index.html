@@ -2,33 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Murtaza Translate</title>
- <link rel="manifest" href="manifest.json">
- <meta name="theme-color" content="#0d6efd">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d6efd">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
-header{background:#173b7a;color:white;padding:28px 18px;text-align:center}
-header h1{margin:0;font-size:30px}header p{margin:8px 0 0;opacity:.9}
-main{max-width:900px;margin:auto;padding:22px 16px}
-.card{background:white;border-radius:16px;padding:20px;margin-bottom:18px;box-shadow:0 4px 18px #0000000d}
-h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-button{border:0;border-radius:12px;padding:15px;background:#173b7a;color:white;font-size:16px;cursor:pointer}
-button:hover{opacity:.9}.tool{background:#eef3ff;color:#173b7a}
-textarea{width:100%;min-height:150px;border:1px solid #d7dce5;border-radius:12px;padding:14px;font-size:16px;resize:vertical}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.counter{font-weight:bold;margin-top:10px}.service{background:#fff7e6}
-footer{text-align:center;padding:25px;color:#687386;font-size:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f0f2f5;color:#222}
+header{background:#173b7a;color:white;padding:20px;text-align:center}
+header h1{margin:0;font-size:30px}
+header p{margin:6px 0 0;font-size:14px}
+main{max-width:900px;margin:auto;padding:16px}
+.card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+h2{margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:12px;padding:12px;background:#173b7a;color:white;font-size:15px;cursor:pointer}
+button:hover{opacity:.9}
+.tool{background:#e9eefb;color:#173b7a}
+textarea{width:100%;min-height:150px;border-radius:12px;border:1px solid #ccc;padding:12px;font-size:16px;margin-top:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.counter{font-weight:bold;margin-top:10px}
+footer{text-align:center;padding:25px;color:#666}
 .small{font-size:14px;color:#687386}
 </style>
 </head>
 <body>
+
 <header>
 <h1>Murtaza Translate</h1>
 <p>Translate • Type • Count • Connect</p>
 </header>
 
 <main>
+
 <section class="card">
 <h2>Language Tools</h2>
 <div class="grid">
@@ -42,19 +48,93 @@ footer{text-align:center;padding:25px;color:#687386;font-size:14px}
 <section class="card" id="translator">
 <h2 id="mode">English → Urdu</h2>
 <p class="small">Enter your text below.</p>
-<textarea id="text" placeholder="Type or paste your text here..." oninput="countText()"></textarea>
- ```html
+<textarea id="text" placeholder="Type or paste your text here..."></textarea>
 <p id="outputText" style="margin-top:15px; font-weight:bold; color:green;"></p>
 <div class="counter" id="count">Words: 0 | Characters: 0</div>
 <div class="row">
 <button onclick="clearText()">Clear</button>
 <button onclick="copyText()">Copy Text</button>
 </div>
-  <button onclick="translateText()">Translate</button>
+<div class="row">
+<button onclick="translateText()">Translate</button>
+</div>
 </section>
+
 <section class="card service">
 <h2>Professional Translation Service</h2>
 <p>Need accurate English, Urdu or Hindi translation, Urdu typing, or proofreading?</p>
 <button onclick="contact()">Contact Murtaza Translate</button>
 </section>
+
 <section class="card">
+<h2>About</h2>
+<p>Murtaza Translate provides language-focused digital tools and professional translation services.</p>
+</section>
+
+</main>
+
+<footer>© 2026 Murtaza Translate • All rights reserved</footer>
+
+<script>
+function setLanguage(name){
+  document.getElementById('mode').innerText = name;
+}
+
+function countText(){
+  const t = document.getElementById('text').value;
+  const words = t.trim() ? t.trim().split(/\s+/).length : 0;
+  document.getElementById('count').innerText = 'Words: ' + words + ' | Characters: ' + t.length;
+}
+
+function clearText(){
+  document.getElementById('text').value = '';
+  document.getElementById('outputText').innerText = '';
+  countText();
+}
+
+async function copyText(){
+  const t = document.getElementById('text').value;
+  if(!t){ alert('Please enter some text first'); return; }
+  try{ await navigator.clipboard.writeText(t); alert('Copied!'); }
+  catch(e){ alert('Copy is not available in this browser.'); }
+}
+
+function showCounter(){
+  document.getElementById('mode').innerText = 'Word & Character Counter';
+  countText();
+}
+
+function contact(){
+  alert('Contact section is ready. In the next step we will add email/WhatsApp.');
+}
+
+async function translateText(){
+  const text = document.getElementById('text').value;
+  if(!text){ alert('کچھ انگریزی لکھیں'); return; }
+
+  const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|ur';
+
+  try{
+    const response = await fetch(url);
+    const data = await response.json();
+    if(data && data.responseData && data.responseData.translatedText){
+      document.getElementById('outputText').innerText = data.responseData.translatedText;
+    } else {
+      document.getElementById('outputText').innerText = 'ترجمہ دستیاب نہیں';
+    }
+  } catch(error){
+    document.getElementById('outputText').innerText = 'مسئلہ آ گیا۔ انٹرنیٹ چیک کریں۔';
+  }
+}
+
+// Text box میں ٹائپ کرتے وقت words گننے کے لیے
+document.getElementById('text').addEventListener('input', countText);
+
+// Service Worker (PWA کے لیے)
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+
+</body>
+ </html>
