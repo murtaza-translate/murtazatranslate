@@ -72,7 +72,7 @@ Demo version: translation API is not connected yet. The interface is ready for t
 <script>
 function setLanguage(name){
  document.getElementById('mode').textContent=name;
- document.getElementById(''outputtext').scrollIntoView({behavior:'smooth'});
+ document.getElementById('outputtext').scrollIntoView({behavior:'smooth'});
 }
 function countText(){
  const t=document.getElementById('text').value;
@@ -91,7 +91,7 @@ async function copyText(){
 }
 function showCounter(){
  document.getElementById('mode').textContent='Word & Character Counter';
- document.getElementById(''outputtext').scrollIntoView({behavior:'smooth'});
+ document.getElementById('outputtext').scrollIntoView({behavior:'smooth'});
 }
 function contact(){
  alert('Contact section is ready. In the next version, we can connect WhatsApp, email, or a contact form.');
