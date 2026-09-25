@@ -2,209 +2,280 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#173b7a">
+
 <title>Murtaza Translate</title>
+
 <link rel="manifest" href="manifest.json">
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f1f4f8;color:#222}
-header{background:#173b7a;color:white;text-align:center;padding:22px}
-main{max-width:850px;margin:auto;padding:15px}
-.card{background:white;padding:18px;border-radius:18px;margin-bottom:15px;box-shadow:0 3px 12px #ddd}
-h1,h2{margin-top:0;color:#173b7a}
-header h1{color:white}
-select,textarea,button{width:100%;padding:14px;border-radius:12px;font-size:16px}
-select,textarea{border:1px solid #ccd3dd;background:white}
-textarea{height:180px;margin-top:10px;resize:vertical}
-button{border:0;margin-top:10px;background:#0d6efd;color:white;font-weight:bold}
-.row{display:flex;gap:10px}
-.row button{flex:1}
-.gray{background:#e9eef7;color:#173b7a}
-.green{background:#198754}
-#result{background:#f5f8fc;min-height:120px;padding:15px;border-radius:12px;font-size:18px;line-height:1.7;white-space:pre-wrap}
-#count{color:#666;font-weight:bold;margin-top:8px}
-#loading{text-align:center;color:#173b7a;font-weight:bold;padding:10px;display:none}
-@media(max-width:600px){.row{flex-direction:column}}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f4f8;
+  color:#222;
+}
+
+header{
+  background:#173b7a;
+  color:white;
+  text-align:center;
+  padding:22px 15px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+header p{
+  margin:8px 0 0;
+  font-size:15px;
+}
+
+main{
+  max-width:850px;
+  margin:auto;
+  padding:15px;
+}
+
+.card{
+  background:white;
+  padding:18px;
+  border-radius:18px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px #ddd;
+}
+
+h2{
+  margin-top:0;
+  color:#173b7a;
+}
+
+select,
+textarea,
+button{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  font-size:16px;
+}
+
+select,
+textarea{
+  border:1px solid #ccd3dd;
+  background:white;
+}
+
+textarea{
+  height:180px;
+  margin-top:10px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  margin-top:10px;
+  background:#0d6efd;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+.row button{
+  flex:1;
+}
+
+.gray{
+  background:#e9eef7;
+  color:#173b7a;
+}
+
+.green{
+  background:#198754;
+}
+
+#result{
+  background:#f5f8fc;
+  min-height:120px;
+  padding:15px;
+  border-radius:12px;
+  font-size:18px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
+#count{
+  color:#666;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+#loading{
+  text-align:center;
+  color:#173b7a;
+  font-weight:bold;
+  padding:10px;
+  display:none;
+}
+
+#status{
+  text-align:center;
+  margin-top:8px;
+  color:#666;
+  font-size:14px;
+}
+
+@media(max-width:600px){
+  .row{
+    flex-direction:column;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Murtaza Translate</h1>
-<p>English • اردو • हिंदी</p>
+  <h1>Murtaza Translate</h1>
+  <p>English • اردو • हिंदी</p>
 </header>
 
 <main>
 
-<div class="card">
-<h2>Language</h2>
+  <!-- LANGUAGE -->
+  <div class="card">
 
-<div class="row">
-<select id="from">
-<option value="en">English</option>
-<option value="ur">Urdu</option>
-<option value="hi">Hindi</option>
-</select>
+    <h2>Language</h2>
 
-<button onclick="swap()">⇄ Swap</button>
+    <div class="row">
 
-<select id="to">
-<option value="ur">Urdu</option>
-<option value="en">English</option>
-<option value="hi">Hindi</option>
-</select>
-</div>
-</div>
+      <select id="from">
+        <option value="en">English</option>
+        <option value="ur">Urdu</option>
+        <option value="hi">Hindi</option>
+      </select>
 
-<div class="card">
-<h2>Translator</h2>
+      <button type="button" onclick="swapLanguages()">
+        ⇄ Swap
+      </button>
 
-<textarea id="input" placeholder="Type or paste your text here..."></textarea>
+      <select id="to">
+        <option value="ur">Urdu</option>
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+      </select>
 
-<div id="count">Words: 0 | Characters: 0</div>
+    </div>
 
-<div class="row">
-<button class="gray" onclick="clearText()">Clear</button>
-<button class="gray" onclick="copyInput()">Copy Text</button>
-</div>
+  </div>
 
-<button onclick="translate()">Translate</button>
 
-<div id="loading">Translating...</div>
+  <!-- TRANSLATOR -->
+  <div class="card">
 
-<h2 style="margin-top:20px">Translation Result</h2>
+    <h2>Translator</h2>
 
-<div id="result">Your translation will appear here.</div>
+    <textarea
+      id="input"
+      placeholder="Type or paste your text here..."
+    ></textarea>
 
-<button class="green" onclick="copyResult()">Copy Translation</button>
-</div>
+    <div id="count">
+      Words: 0 | Characters: 0
+    </div>
+
+    <div class="row">
+
+      <button
+        type="button"
+        class="gray"
+        onclick="clearText()"
+      >
+        Clear
+      </button>
+
+      <button
+        type="button"
+        class="gray"
+        onclick="copyInput()"
+      >
+        Copy Text
+      </button>
+
+    </div>
+
+    <button
+      id="translateBtn"
+      type="button"
+      onclick="translateText()"
+    >
+      Translate
+    </button>
+
+    <div id="loading">
+      Translating...
+    </div>
+
+    <div id="status"></div>
+
+    <h2 style="margin-top:20px">
+      Translation Result
+    </h2>
+
+    <div id="result">
+      Your translation will appear here.
+    </div>
+
+    <button
+      type="button"
+      class="green"
+      onclick="copyResult()"
+    >
+      Copy Translation
+    </button>
+
+  </div>
 
 </main>
 
+
 <script>
 
-const input=document.getElementById("input");
-const result=document.getElementById("result");
-const count=document.getElementById("count");
-const loading=document.getElementById("loading");
+/* =========================
+   BASIC ELEMENTS
+========================= */
 
-input.addEventListener("input",()=>{
-let t=input.value.trim();
-let words=t?t.split(/\s+/).length:0;
-count.textContent=`Words: ${words} | Characters: ${input.value.length}`;
-});
+const input = document.getElementById("input");
+const result = document.getElementById("result");
+const count = document.getElementById("count");
+const loading = document.getElementById("loading");
+const statusBox = document.getElementById("status");
+const translateBtn = document.getElementById("translateBtn");
 
-function clearText(){
-input.value="";
-result.textContent="Your translation will appear here.";
-count.textContent="Words: 0 | Characters: 0";
-}
 
-async function copyInput(){
-if(!input.value.trim())return alert("Please enter text first.");
-await navigator.clipboard.writeText(input.value);
-alert("Text copied!");
-}
+/* =========================
+   WORD / CHARACTER COUNT
+========================= */
 
-async function copyResult(){
-let t=result.textContent.trim();
-if(!t||t==="Your translation will appear here.")
-return alert("No translation available.");
-await navigator.clipboard.writeText(t);
-alert("Translation copied!");
-}
+input.addEventListener("input", updateCount);
 
-function swap(){
-let a=document.getElementById("from");
-let b=document.getElementById("to");
-let x=a.value;
-a.value=b.value;
-b.value=x;
-}
+function updateCount(){
 
-function fixRoman(text){
-return text
-.replace(/\bassalamu alaikum\b/gi,"السلام علیکم")
-.replace(/\bassalamualaikum\b/gi,"السلام علیکم")
-.replace(/\bassalam o alaikum\b/gi,"السلام علیکم")
-.replace(/\bwalaikum assalam\b/gi,"وعلیکم السلام")
-.replace(/\bwa alaikum assalam\b/gi,"وعلیکم السلام")
-.replace(/\bbismillah\b/gi,"بسم اللہ")
-.replace(/\binshallah\b/gi,"ان شاء اللہ")
-.replace(/\bmashallah\b/gi,"ماشاء اللہ")
-.replace(/\balhamdulillah\b/gi,"الحمدللہ")
-.replace(/\bshukriya\b/gi,"شکریہ")
-.replace(/\bkhuda hafiz\b/gi,"خدا حافظ");
-}
-
-async function translate(){
-
-let text=input.value.trim();
-let from=document.getElementById("from").value;
-let to=document.getElementById("to").value;
-
-if(!text)return alert("Please enter text first.");
-
-if(from===to){
-result.textContent=text;
-return;
-}
-
-loading.style.display="block";
-result.textContent="Translating...";
-
-try{
-
-/* Common Roman Urdu phrases */
-if(to==="ur"){
-let fixed=fixRoman(text);
-
-if(fixed!==text){
-text=fixed;
-
-if(!/[A-Za-z]/.test(text)){
-result.textContent=text;
-loading.style.display="none";
-return;
-}
-}
-}
-
-/* Translation API */
-let url=
-"https://api.mymemory.translated.net/get?q="+
-encodeURIComponent(text)+
-"&langpair="+
-encodeURIComponent(from+"|"+to);
-
-let response=await fetch(url);
-
-if(!response.ok)throw new Error();
-
-let data=await response.json();
-
-if(!data.responseData||
-!data.responseData.translatedText)
-throw new Error();
-
-result.textContent=
-data.responseData.translatedText
-.replace(/<[^>]*>/g,"");
-
-}catch(e){
-
-result.textContent=
-"Translation failed. Please try again.";
-
-}
-
-loading.style.display="none";
-}
-
-</script>
-
-</body>
-                                         </html>
+  const text =
