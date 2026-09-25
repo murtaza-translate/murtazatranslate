@@ -1,281 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#173b7a">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murtaza Translate</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<title>Murtaza Translate</title>
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
 
-<link rel="manifest" href="manifest.json">
+        /* Header Styles */
+        header {
+            background-color: #1a365d;
+            width: 100%;
+            text-align: center;
+            padding: 20px 15px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-<style>
-*{
-  box-sizing:border-box;
-}
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
 
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f1f4f8;
-  color:#222;
-}
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
 
-header{
-  background:#173b7a;
-  color:white;
-  text-align:center;
-  padding:22px 15px;
-}
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-header h1{
-  margin:0;
-  font-size:28px;
-}
+        /* Card Style */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
 
-header p{
-  margin:8px 0 0;
-  font-size:15px;
-}
+        .card-title {
+            color: #1a365d;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
 
-main{
-  max-width:850px;
-  margin:auto;
-  padding:15px;
-}
+        /* Language Selector */
+        .lang-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #2d3748;
+            outline: none;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
 
-.card{
-  background:white;
-  padding:18px;
-  border-radius:18px;
-  margin-bottom:15px;
-  box-shadow:0 3px 12px #ddd;
-}
+        .lang-select:focus {
+            border-color: #3b82f6;
+        }
 
-h2{
-  margin-top:0;
-  color:#173b7a;
-}
+        /* Swap Button */
+        .swap-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin: 10px 0;
+        }
 
-select,
-textarea,
-button{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  font-size:16px;
-}
+        .swap-btn:hover {
+            background-color: #1d4ed8;
+        }
 
-select,
-textarea{
-  border:1px solid #ccd3dd;
-  background:white;
-}
+        /* Textarea */
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+            color: #2d3748;
+        }
 
-textarea{
-  height:180px;
-  margin-top:10px;
-  resize:vertical;
-}
+        textarea:focus {
+            border-color: #3b82f6;
+        }
 
-button{
-  border:0;
-  margin-top:10px;
-  background:#0d6efd;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
+        /* Info Text */
+        .info-text {
+            font-size: 14px;
+            color: #718096;
+            margin: 10px 0;
+            font-weight: 600;
+        }
 
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-.row{
-  display:flex;
-  gap:10px;
-}
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background-color: #e2e8f0;
+            color: #2d3748;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-.row button{
-  flex:1;
-}
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+        }
 
-.gray{
-  background:#e9eef7;
-  color:#173b7a;
-}
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 5px;
+        }
 
-.green{
-  background:#198754;
-}
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
 
-#result{
-  background:#f5f8fc;
-  min-height:120px;
-  padding:15px;
-  border-radius:12px;
-  font-size:18px;
-  line-height:1.7;
-  white-space:pre-wrap;
-  word-wrap:break-word;
-}
+        /* Result Box */
+        .result-box {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 80px;
+            font-size: 18px;
+            color: #2d3748;
+            word-wrap: break-word;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-#count{
-  color:#666;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-#loading{
-  text-align:center;
-  color:#173b7a;
-  font-weight:bold;
-  padding:10px;
-  display:none;
-}
-
-#status{
-  text-align:center;
-  margin-top:8px;
-  color:#666;
-  font-size:14px;
-}
-
-@media(max-width:600px){
-  .row{
-    flex-direction:column;
-  }
-}
-</style>
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            color: #2563eb;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Murtaza Translate</h1>
-  <p>English • اردو • हिंदी</p>
-</header>
+    <!-- Header -->
+    <header>
+        <h1>Murtaza Translate</h1>
+        <p>English • اردو • हिंदी</p>
+    </header>
 
-<main>
+    <div class="container">
+        <!-- Language Card -->
+        <div class="card">
+            <div class="card-title">Language</div>
+            
+            <label>From:</label>
+            <select id="sourceLang" class="lang-select">
+                <option value="en">English</option>
+                <option value="ur">Urdu</option>
+                <option value="hi">Hindi</option>
+            </select>
 
-  <!-- LANGUAGE -->
-  <div class="card">
+            <button class="swap-btn" onclick="swapLanguages()">⇄ Swap</button>
 
-    <h2>Language</h2>
+            <label>To:</label>
+            <select id="targetLang" class="lang-select">
+                <option value="ur">Urdu</option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+            </select>
+        </div>
 
-    <div class="row">
+        <!-- Translator Card -->
+        <div class="card">
+            <div class="card-title">Translator</div>
+            
+            <textarea id="inputText" placeholder="یہاں ٹیکسٹ لکھیں...">Assalamu alaikum sir my name is ghulam Murtaza</textarea>
+            
+            <div class="info-text">
+                Words: <span id="wordCount">0</span> | Characters: <span id="charCount">0</span>
+            </div>
 
-      <select id="from">
-        <option value="en">English</option>
-        <option value="ur">Urdu</option>
-        <option value="hi">Hindi</option>
-      </select>
+            <div class="btn-group">
+                <button class="btn-secondary" onclick="clearText()">Clear</button>
+                <button class="btn-secondary" onclick="copyText()">Copy Text</button>
+                <button class="btn-primary" onclick="translateText()">Translate</button>
+            </div>
+            
+            <div id="loading" class="loading">ٹرانسلیٹ ہو رہا ہے... انتظار کریں۔</div>
+        </div>
 
-      <button type="button" onclick="swapLanguages()">
-        ⇄ Swap
-      </button>
-
-      <select id="to">
-        <option value="ur">Urdu</option>
-        <option value="en">English</option>
-        <option value="hi">Hindi</option>
-      </select>
-
+        <!-- Result Card -->
+        <div class="card">
+            <div class="card-title">Translation Result</div>
+            <div class="result-box" id="resultBox">
+                Your translation will appear here
+            </div>
+        </div>
     </div>
 
-  </div>
+    <script>
+        // Elements کو سلیکٹ کرنا
+        const inputText = document.getElementById('inputText');
+        const sourceLang = document.getElementById('sourceLang');
+        const targetLang = document.getElementById('targetLang');
+        const resultBox = document.getElementById('resultBox');
+        const wordCountSpan = document.getElementById('wordCount');
+        const charCountSpan = document.getElementById('charCount');
+        const loadingDiv = document.getElementById('loading');
 
+        // 1. Words اور Characters گننے کا فنکشن
+        function updateCounts() {
+            const text = inputText.value;
+            const chars = text.length;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            
+            charCountSpan.textContent = chars;
+            wordCountSpan.textContent = words;
+        }
 
-  <!-- TRANSLATOR -->
-  <div class="card">
+        // ان پٹ پر ایونٹ لسنر لگانا
+        inputText.addEventListener('input', updateCounts);
+        // شروع میں کاؤنٹ اپ ڈیٹ کرنا
+        updateCounts();
 
-    <h2>Translator</h2>
+        // 2. زبانیں بدلنے کا فنکشن (Swap)
+        function swapLanguages() {
+            const temp = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = temp;
+            
+            // اگر رزلٹ باکس میں ٹیکسٹ ہے تو اسے بھی بدل دیں
+            if (resultBox.textContent !== "Your translation will appear here") {
+                inputText.value = resultBox.textContent;
+                resultBox.textContent = "Your translation will appear here";
+                updateCounts();
+            }
+        }
 
-    <textarea
-      id="input"
-      placeholder="Type or paste your text here..."
-    ></textarea>
+        // 3. ٹیکسٹ صاف کرنے کا فنکشن (Clear)
+        function clearText() {
+            inputText.value = '';
+            resultBox.textContent = 'Your translation will appear here';
+            updateCounts();
+        }
 
-    <div id="count">
-      Words: 0 | Characters: 0
-    </div>
+        // 4. ٹیکسٹ کاپی کرنے کا فنکشن (Copy)
+        function copyText() {
+            if (resultBox.textContent === "Your translation will appear here" || resultBox.textContent === "") {
+                alert("پہلے ترجمہ کریں، پھر کاپی کریں۔");
+                return;
+            }
+            navigator.clipboard.writeText(resultBox.textContent).then(() => {
+                alert("ترجمہ کاپی ہو گیا!");
+            }).catch(err => {
+                alert("کاپی کرنے میں مسئلہ ہوا۔");
+            });
+        }
 
-    <div class="row">
+        // 5. مرکزی ترجمہ کرنے کا فنکشن (Google Translate API)
+        async function translateText() {
+            const text = inputText.value.trim();
+            const from = sourceLang.value;
+            const to = targetLang.value;
 
-      <button
-        type="button"
-        class="gray"
-        onclick="clearText()"
-      >
-        Clear
-      </button>
+            if (text === '') {
+                alert("براہ کرم ترجمہ کرنے کے لیے کچھ ٹیکسٹ لکھیں۔");
+                return;
+            }
 
-      <button
-        type="button"
-        class="gray"
-        onclick="copyInput()"
-      >
-        Copy Text
-      </button>
+            // لوڈنگ دکھانا
+            loadingDiv.style.display = 'block';
+            resultBox.textContent = '...';
 
-    </div>
+            // گوگل ٹرانسلیٹ کا مفت API URL
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
 
-    <button
-      id="translateBtn"
-      type="button"
-      onclick="translateText()"
-    >
-      Translate
-    </button>
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // ڈیٹا کو پارس کر کے نتیجہ نکالنا
+                let translatedText = '';
+                if (data && data[0]) {
+                    data[0].forEach(item => {
+                        if (item[0]) {
+                            translatedText += item[0];
+                        }
+                    });
+                }
 
-    <div id="loading">
-      Translating...
-    </div>
+                // نتیجہ دکھانا
+                if (translatedText) {
+                    resultBox.textContent = translatedText;
+                } else {
+                    resultBox.textContent = "ترجمہ ناکام ہو گیا۔ دوبارہ کوشش کریں۔";
+                }
 
-    <div id="status"></div>
+            } catch (error) {
+                console.error("Translation Error:", error);
+                resultBox.textContent = "خرابی: انٹرنیٹ کنیکشن چیک کریں یا API کی حد ختم ہو گئی ہے۔";
+            } finally {
+                // لوڈنگ چھپانا
+                loadingDiv.style.display = 'none';
+            }
+        }
 
-    <h2 style="margin-top:20px">
-      Translation Result
-    </h2>
-
-    <div id="result">
-      Your translation will appear here.
-    </div>
-
-    <button
-      type="button"
-      class="green"
-      onclick="copyResult()"
-    >
-      Copy Translation
-    </button>
-
-  </div>
-
-</main>
-
-
-<script>
-
-/* =========================
-   BASIC ELEMENTS
-========================= */
-
-const input = document.getElementById("input");
-const result = document.getElementById("result");
-const count = document.getElementById("count");
-const loading = document.getElementById("loading");
-const statusBox = document.getElementById("status");
-const translateBtn = document.getElementById("translateBtn");
-
-
-/* =========================
-   WORD / CHARACTER COUNT
-========================= */
-
-input.addEventListener("input", updateCount);
-
-function updateCount(){
-
-  const text =
+        // Enter کی دبانے پر ترجمہ کرنا (اختیاری)
+        inputText.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                translateText();
+            }
+        });
+    </script>
+</body>
+  </html>
