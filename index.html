@@ -244,7 +244,7 @@
                 <button class="btn-primary" onclick="translateText()">Translate</button>
             </div>
             
-            <div id="loading" class="loading">ٹرانسلیٹ ہو رہا ہے... انتظار کریں۔</div>
+            <div id="loading" class="loading">Translating... Please wait.</div>
         </div>
 
         <!-- Result Card -->
@@ -276,9 +276,7 @@
             wordCountSpan.textContent = words;
         }
 
-        // ان پٹ پر ایونٹ لسنر لگانا
         inputText.addEventListener('input', updateCounts);
-        // شروع میں کاؤنٹ اپ ڈیٹ کرنا
         updateCounts();
 
         // 2. زبانیں بدلنے کا فنکشن (Swap)
@@ -287,8 +285,7 @@
             sourceLang.value = targetLang.value;
             targetLang.value = temp;
             
-            // اگر رزلٹ باکس میں ٹیکسٹ ہے تو اسے بھی بدل دیں
-            if (resultBox.textContent !== "Your translation will appear here") {
+            if (resultBox.textContent !== "Your translation will appear here" && resultBox.textContent !== "") {
                 inputText.value = resultBox.textContent;
                 resultBox.textContent = "Your translation will appear here";
                 updateCounts();
@@ -315,7 +312,7 @@
             });
         }
 
-        // 5. مرکزی ترجمہ کرنے کا فنکشن (Google Translate API)
+        // 5. مرکزی ترجمہ کرنے کا فنکشن (Better API for GitHub Pages)
         async function translateText() {
             const text = inputText.value.trim();
             const from = sourceLang.value;
@@ -326,44 +323,32 @@
                 return;
             }
 
-            // لوڈنگ دکھانا
             loadingDiv.style.display = 'block';
             resultBox.textContent = '...';
 
-            // گوگل ٹرانسلیٹ کا مفت API URL
-            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+            // GitHub Pages کے لیے زیادہ مستحکم API
+            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 
-                // ڈیٹا کو پارس کر کے نتیجہ نکالنا
-                let translatedText = '';
-                if (data && data[0]) {
-                    data[0].forEach(item => {
-                        if (item[0]) {
-                            translatedText += item[0];
-                        }
-                    });
-                }
-
-                // نتیجہ دکھانا
-                if (translatedText) {
-                    resultBox.textContent = translatedText;
+                // API سے آنے والے ڈیٹا کو چیک کرنا
+                if (data && data.responseData && data.responseData.translatedText) {
+                    resultBox.textContent = data.responseData.translatedText;
                 } else {
-                    resultBox.textContent = "ترجمہ ناکام ہو گیا۔ دوبارہ کوشش کریں۔";
+                    resultBox.textContent = "Translation failed. Please try again.";
                 }
 
             } catch (error) {
                 console.error("Translation Error:", error);
-                resultBox.textContent = "خرابی: انٹرنیٹ کنیکشن چیک کریں یا API کی حد ختم ہو گئی ہے۔";
+                resultBox.textContent = "Error: Internet connection check karein.";
             } finally {
-                // لوڈنگ چھپانا
                 loadingDiv.style.display = 'none';
             }
         }
 
-        // Enter کی دبانے پر ترجمہ کرنا (اختیاری)
+        // Enter کی دبانے پر ترجمہ کرنا
         inputText.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -372,4 +357,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
